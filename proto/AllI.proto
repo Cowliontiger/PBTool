@@ -1,0 +1,6 @@
+syntax="proto3";
+option java_package="com.test.protobuf";
+// 所有请求协议
+
+
+

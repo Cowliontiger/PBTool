@@ -1,0 +1,74 @@
+label {
+    width: 400px;
+    height: 30px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+select {
+    width: auto;
+    min-width: 200px;
+    height: 30px;
+}
+
+.input_txt {
+    width: 700px;
+    height: 30px;
+}
+.input_data {
+    width: 200px;
+    height: 30px;
+}
+.dataLine{
+    line-height: 30px;
+}
+
+.button {
+    height: 30px;
+    width: 80px;
+}
+
+.upload {
+    height: 30px;
+}
+
+div {
+    margin: 15px 15px 15px 15px;
+}
+.divShow{
+    display: block;
+}
+.divHide{
+    display: none;
+}
+.marginLeftRemove{
+    margin-left: 0px;
+}
+#debug{
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+#address{
+    display: flex;
+    align-items: center;
+}
+#resultShow{
+    font-size: 13px;
+}
+#interfaceUrl{
+    width: 300px;
+    height: 30px;
+}
+#port{
+    width: 30px;
+}
+#methodType{
+    width: 30px;
+}
+#radioContainer{
+    float: right;
+    display: flex;
+    flex-direction: column;
+}

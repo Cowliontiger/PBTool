@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Proto Buffer Tool</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+        <script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}" />
+        <script type="text/javascript" th:src="@{/js/index.js}" />
+
+    </head>
+    <body>
+    <div id="radioContainer" >广播信息：
+        <button id="autoScroll" onclick="autoScrollSwitch();">自动滚动</button>
+        <textarea id="radio" name="radio" cols="60" rows="40"></textarea>
+    </div>
+        <div id="address">
+        <span class="label">请求类型：</span>
+        <select name="methodType" id="methodType" onchange="methodTypeChange();">
+            <option value="SOCKET">SOCKET</option>
+            <option value="POST">POST</option>
+            <option value="GET">GET</option>
+        </select>
+
+            <div id="otherContainer">
+                <span class="label">接口地址：</span>
+                <!--<input type="text" name="interfaceUrl" id="interfaceUrl"  value="http://and.cn/login"/>-->
+                <select name="interfaceUrl" id="interfaceUrl">
+                    <option value="http://and.cn/login">http://and.cn/login</option>
+                    <option value="http://land.cn/login">http://land.cn/login</option>
+                    <option value="">prod--todo</option>
+                </select>
+            </div>
+            <div id="socketContainer" >
+                <select name="host" id="host">
+                    <option value="and.cn">and.cn</option>
+                    <option value="land.cn">land.cn</option>
+                    <option value="">prod--todo</option>
+                </select>
+                <input type="text" id="port" value="8880"/>
+                <button onclick="initSocket();">连接</button>
+                <button onclick="closeSocket();">断开</button>
+                <button onclick="checkSocket();">刷新状态</button>
+                socket状态：
+                <span id="socketState"></span>
+            </div>
+
+    </div>
+        <div>
+            <span class="label">数据格式：</span>
+            <select name="protocolType" id="protocolType" onchange="dataTypeChange();">
+                <option value="application/x-protobuf">application/x-protobuf</option>
+                <option value="application/json">application/json</option>
+            </select>
+        </div>
+
+        <div id="protoContainer">
+            <span class="label">Proto文件：</span>
+            <select name="protoFileName" id="protoFileName">
+                <option value="">--请选择--</option>
+                <option th:each="protoFile,protoFileStat:${protoFileList}" th:value="${protoFile}" th:text="${protoFile}"></option>
+            </select>
+<!--            <span style="color: red">如果Proto文件没有选择项，或没有您需要的请使用的Proto文件选择项，就请使用下面的Proto文件上传功能，如果有选择项，则可以不必上传</span>-->
+
+                <form action="/uploadProtoFile" id="protoFileForm" method="POST" enctype="multipart/form-data" style="display: inline">
+                    <span class="label">上传Proto文件：</span>
+                    <input type="file" name="protoFile" id="protoFile" />
+                    <input type="button" value="上传" onclick="uploadProtoFile();" class="button" />
+                    <span id="uploadResult"></span>
+                </form>
+            <div class="marginLeftRemove">
+                <span class="label" >protocolId：</span>
+                <select name="protocolIdName" id="protocolIdName" onchange="protocolIdChange();">
+                    <option value="">--请选择--</option>
+                    <option th:each="protoFile,protoFileStat:${protocolId}" th:value="${protoFile}" th:text="${protoFile}"></option>
+                </select>&nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="dataInputs" id="data_container">
+            <div class="label">添加参数：<button  id="AddData" onclick="AddData();">+</button></div>
+
+        </div>
+
+
+        <div >
+            <span class="label">请求参数：</span>
+            <textarea name="paramData" id="paramData" rows="6" cols="100"></textarea>
+        </div>
+        <div >
+            <input type="submit" name="executeHttpRequest" id="executeHttpRequest" value="执行请求" class="button" onclick="executeHttpRequest()" />
+            <span id="errorMsg" style="color: red"></span>
+        </div>
+
+        <div id="debugContainer">请求记录：
+            <textarea id="debug" name="debug" cols="100" rows="6"></textarea>
+        </div>
+
+        <hr />
+
+        <div id="resultShow">
+            <div class="label">返回结果：</div>
+            <span style="font-weight: bold;">请求头信息：</span><br/>
+            <div id="requestHeader" style="color: green"></div><br/><br/>
+            <span style="font-weight: bold;">请求参数信息：</span><br/>
+            <div id="requestBody" style="color: green"></div><br/><br/>
+            <span style="font-weight: bold;">响应信息：</span><br/>
+            <div id="responseHeader" style="color: green"></div><br/><br/>
+            <span style="font-weight: bold;">响应参数信息：</span><br/>
+            <div id="responseBody" style="color: green"></div><br/>
+        </div>
+    </body>
+</html>
