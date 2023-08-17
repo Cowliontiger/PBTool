@@ -689,20 +689,6 @@ public class HttpClientUtil {
 
         ByteBuffer buf = ByteBuffer.allocate(16 + bodyBytes.length);
         buf.put(headBytes);
-
-        /*
-        辨别报文头请求使用
-        private final byte [] magic;
-        // 长度
-        private final int length;
-        // 请求的 响应的协议 id
-        private final int protocolId;
-        // encryption code
-        private final int crc;
-        原请求串为{ "gender":1 },则要生成下面字节数组内容[0, 0, 0, 0, 8, 1]
-        其中8,1是原请求串的字节
-         */
-
         buf.putInt(bodyBytes.length);
         buf.putInt(protocolId);
         buf.putInt(0);
