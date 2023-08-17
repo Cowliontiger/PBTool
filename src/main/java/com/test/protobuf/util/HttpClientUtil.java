@@ -649,94 +649,6 @@ public class HttpClientUtil {
 		return responseBody.toString();
 	}
 
-//    /**
-//     * 获取返回数据
-//     * @param requestStr 请求报文
-//     * @param clazz
-//     * @param protocolId 协议ID
-//     * @param host sockip
-//     * @param port sockport
-//     * @return responseData 响应数据
-//     * @throws Exception
-//     */
-//	public  String send(String requestStr, Class clazz, int protocolId,String host,int port) throws Exception{
-//
-//        //cls.Builder builder = SomeProto.newBuilder();
-//        //SomeProto message = builder.build();
-//        //String json = com.google.protobuf.util.JsonFormat.printer().includingDefaultValueFields().print(message);
-///*
-//        Method buildM = clazz.getDeclaredMethod("newBuilder");
-//        AbstractMessage.Builder<?> builder = (AbstractMessage.Builder<?>) buildM.invoke(null);
-//        String templateJson = com.google.protobuf.util.JsonFormat.printer().includingDefaultValueFields().print(builder.build());
-//        logger.info("templateJson:"+templateJson);
-//*/
-//
-//
-//
-//
-//        logger.info("requestStr clazz:"+clazz.getName());
-//        //logger.info("requestStr after:"+"{ "+requestStr.substring(requestStr.split(",")[0].length()+1,requestStr.length()));
-//        //requestStr = "{ "+requestStr.substring(requestStr.split(",")[0].length()+1,requestStr.length());
-//        logger.info("requestStr:"+requestStr);
-//        if(s.isClosed())
-//            s = new Socket(host,port);
-//        //构建IO
-//        DataOutputStream output = new DataOutputStream(s.getOutputStream());
-//        //向服务器端发送一条消息
-//        //bw.write("测试客户端和服务器通信，服务器接收到消息返回到客户端\n");
-//        byte[] headBytes = new byte[]{102, 97, 115, 116};
-//        byte[] bodyBytes = this.jsonToProtobufByteArray(requestStr, clazz);
-//        ByteBuffer buf = ByteBuffer.allocate(16 + bodyBytes.length);
-//        buf.put(headBytes);
-//
-//        /*
-//        辨别报文头请求使用
-//        private final byte [] magic;
-//        // 长度
-//        private final int length;
-//        // 请求的 响应的协议 id
-//        private final int protocolId;
-//        // encryption code
-//        private final int crc;
-//        原请求串为{ "gender":1 },则要生成下面字节数组内容[102, 97, 115, 116, 0, 0, 0, 2, 0, 0, 3, -17, 0, 0, 0, 0, 8, 1]
-//        其中8,1是原请求串的字节,前面16位代表 magic+length+id+crc
-//         */
-//
-//        buf.putInt(bodyBytes.length);
-//        buf.putInt(protocolId);
-//        buf.putInt(0);
-//        buf.put(bodyBytes);
-//        output.write(buf.array());
-//        output.flush();
-//        //output.close();
-//        //读取服务器返回的消息
-//        //start();
-//        //BufferedReader br = new BufferedReader(ne w InputStreamReader(is));
-//            DataInputStream input = new DataInputStream(new BufferedInputStream(s.getInputStream()));
-//            byte[] buffer = new byte[20480];
-//            StringBuffer sBuf = new StringBuffer();
-//            //消息长度
-//            int flag = 0;
-//        do{
-//                //logger.info("循环次数："+flag);
-//                int rlength = input.read(buffer, 0, 20480);
-//                logger.info("接收的消息长度:" + rlength);
-//                String bufferStr = new String(buffer);
-//                sBuf.append(bufferStr);
-//                String requestClassName = clazz.getName();
-//                String responseClassName = requestClassName.replace("Req", "Rsp");
-//                try {
-//                    Class cls = Class.forName(responseClassName);
-//                    Object protoBufDTO = this.convertBytesToProtoBufObjcet(buffer, cls);
-//                    responseBody += protoBufDTO.toString();
-//                } catch (ClassNotFoundException e){
-//                    logger.info("The " + responseClassName +" is not exist!");
-//                }
-//                //Thread.sleep(2000);
-//            //new Thread(new ProtobufReceive(port, "push")).start();
-//        } while(input.available() != 0);
-//        return responseBody;
-//    }
 
     /**
      * 获取返回数据
@@ -748,7 +660,7 @@ public class HttpClientUtil {
      * @return responseData 响应数据
      * @throws Exception
      */
-    //public  String send(Message.Builder requestBuilder, Class clazz, int protocolId, String host, int port) throws Exception{
+
     public <T> String send(T requestBuilder, Class clazz, int protocolId, String host, int port) throws Exception{
 
 
@@ -787,8 +699,8 @@ public class HttpClientUtil {
         private final int protocolId;
         // encryption code
         private final int crc;
-        原请求串为{ "gender":1 },则要生成下面字节数组内容[102, 97, 115, 116, 0, 0, 0, 2, 0, 0, 3, -17, 0, 0, 0, 0, 8, 1]
-        其中8,1是原请求串的字节,前面16位代表 magic+length+id+crc
+        原请求串为{ "gender":1 },则要生成下面字节数组内容[0, 0, 0, 0, 8, 1]
+        其中8,1是原请求串的字节
          */
 
         buf.putInt(bodyBytes.length);
@@ -892,48 +804,7 @@ public class HttpClientUtil {
 			return  checkSocket();
 		}
 	}
-	/**
-	 * 检查心跳与显示广播(push)信息
-	 * @throws Exception
-	 */
-//	public  boolean checkClient(){
-//		System.out.println("checkClient");
-//		try{
-//		    int flag = 0 ;
-//			while (true) {
-//			    logger.info(String.valueOf("连接次数："+flag++));
-//				s.sendUrgentData(0xFF); // 发送心跳包
-//                logger.info("socket处于链接状态。");
-//                Thread.sleep(1500);//线程睡眠3秒
-//                StringBuffer sBuf = new StringBuffer();
-//                DataInputStream input = new DataInputStream(new BufferedInputStream(s.getInputStream()));
-//                byte[] buffer = new byte[20480];
-//                if(input.available() != 0) {
-//                    int rlength = input.read(buffer, 0, 20480);
-//                    logger.info("接收的消息长度:" + rlength);
-//                    String bufferStr = new String(buffer);
-//                    sBuf.append(bufferStr);
-//                    Object protoBufDTO = this.convertBytesToProtoBufObjcet(buffer, null);
-//                    logger.info("接收的消息内容:" + protoBufDTO);
-//                }else{
-//                    continue;
-//                }
-//                //byte[] buffer = new byte[20480];
-//                //DataInputStream input = new DataInputStream(new BufferedInputStream(s.getInputStream()));
-//                //int rlength = input.read(buffer, 0, 20480);
-//                //logger.info("接收的消息长度:" + rlength);
-//
-//
-//				isClient=true;
-//			}
-//		}
-//		catch (Exception e) {
-//			e.printStackTrace();
-//			isClient=false;
-//
-//		}
-//		return  isClient;
-//	}
+
 	/**
 	 * 检查心跳
 	 * @throws Exception
