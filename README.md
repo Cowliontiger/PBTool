@@ -1,2 +1,2 @@
 # PBTool
-基于socket协议的protobuf存储格式的自动化接口测试工具，包括单接口的UI测试与基于业务场景游戏机器人等功能
+支持请求类型Socket、Post与Get，支持数据格式application/x-protobuf与application/json的自动化接口测试工具，包括单接口的UI测试与基于业务场景游戏机器人等功能
